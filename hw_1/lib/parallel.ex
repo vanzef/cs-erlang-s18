@@ -18,10 +18,11 @@ defmodule Parallel do
 
   @type element :: any
 
-  import Stream,    only: [cycle: 1, zip: 2]
-  import Enum,      only: [to_list: 1]
   import List,      only: [foldr: 3]
   import Recursion, only: [fix: 1]
+
+  alias Task.Supervisor, as: TS
+  alias Parallel.NodePicker, as: PNP
 
   @doc """
   Parallel map itself.
@@ -34,12 +35,17 @@ defmodule Parallel do
   """
   @spec map((element -> any), Enumerable.t()) :: Enumerable.t()
   def map(func, list) do
-    nodes = [node() | Node.list()]
-    tasks = Stream.map(zip(list, cycle(nodes)), fn {elem, node} ->
-      # IO.puts("Starting function on node " <> to_string(node))
-      Task.Supervisor.async({Parallel, node}, fn ->
-        func.(elem)
-      end)
+    {:ok, picker} = PNP.start_link([])
+    tasks = Enum.map(list, fn elem ->
+      node = PNP.get(picker)
+      # IO.puts("spawn " <> to_string(node))
+      {
+        elem,
+        node,
+        TS.async_nolink({Parallel, node}, fn ->
+          func.(elem)
+        end)
+      }
     end)
 
     loop = fn loop ->
@@ -47,16 +53,28 @@ defmodule Parallel do
         # foldl over task list, second element of tuple is `true`
         # if the elements of `tasks` are all results and not task
         # structures
-        case foldr(tasks, {[], true}, fn elem, {acc, no_tasks} ->
-              case elem do
+        case foldr(tasks, {[], true}, fn {elem, node, task}, {acc, no_tasks} ->
+              case task do
                 %Task{} ->
-                  result = Task.yield(elem)
-                  if result do
-                    {[result | acc], no_tasks}
-                  else
-                    {[elem | acc], false}
+                  # check if node is still alive
+                  case Node.ping node do
+                    :pong ->
+                      result = Task.yield(task)
+                      if result do
+                        {[{elem, node, result} | acc], no_tasks}
+                      else
+                        {[{elem, node, task} | acc], false}
+                      end
+                    :pang ->
+                      # respawn task
+                      node = PNP.get(picker)
+                      # IO.puts("respawn " <> to_string(node))
+                      task = TS.async_nolink({Parallel, node}, fn ->
+                        func.(elem)
+                      end)
+                      {[{elem, node, task} | acc], false}
                   end
-                _       -> {[elem | acc], no_tasks}
+                _       -> {[{elem, node, task} | acc], no_tasks}
               end
             end) do
           {list, true}  -> list
@@ -65,6 +83,6 @@ defmodule Parallel do
       end
     end
 
-    Enum.map(fix(loop).(to_list(tasks)), fn {:ok, res} -> res end)
+    Enum.map(fix(loop).(tasks), fn {_, _, {:ok, res}} -> res end)
   end
 end
