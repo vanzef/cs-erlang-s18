@@ -1,0 +1,11 @@
+#+TITLE: Introduction to Erlang
+
+* TODO [[file:hw_1/README.org][Homework 1: parallel map]] [0/3]
+  DEADLINE: <2018-02-04 Sun 23:50>
+  + [ ] Use all available nodes
+    Nodes should be manually connnected via =Node.connect=
+  + [ ] Map is stable
+  + [ ] Fail agnostic
+
+* TODO Homework 2: least significant bit steganography
+  DEADLINE: <2018-02-25 Sun 23:50>
