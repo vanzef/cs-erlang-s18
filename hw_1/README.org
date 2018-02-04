@@ -1,0 +1,22 @@
+#+TITLE: Parallel map
+
+* Requirements
+  + Erlang
+  + Elixir
+  + Mix build tool
+
+* Usage
+  To spawn several nodes one can use =iex -sname $NAME -S mix= command.
+
+** Example
+   #+BEGIN_SRC shell-script
+     $ iex -sname foo -S mix
+     $ iex -sname bar -S mix
+     $ iex -sname main -S mix
+     iex(main@hostname)1> Node.connect :foo@hostname
+     true
+     iex(main@hostname)2> Node.connect :bar@hostname
+     true
+     iex(main@hostname)3> Parallel.map(&Parallel.Examples.fac/1, [10, 5, 1, 5])
+     [3628800, 120, 1, 120]
+   #+END_SRC
