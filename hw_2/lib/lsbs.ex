@@ -27,8 +27,9 @@ defmodule Steganography do
     pixel_bytes = floor_div(pixels * bitness, 8) # number of pixel bytes in a row
     bytes_in_row = floor_div(pixels * bitness + 31, 32) * 4 # total bytes in a row
     padding_bytes = bytes_in_row - pixel_bytes
-    number_of_bytes_to_encode = Integer.floor_div(bytes_in_row * rows, 4)
+    number_of_bytes_to_encode = Integer.floor_div(bytes_in_row * rows, 4) - 4
     {:ok, good_string} = Unicode.take_safely(string, number_of_bytes_to_encode)
+    good_string = int_to_bin(byte_size(good_string), 4) <> good_string
 
     no_padding = drop_padding(image, pixel_bytes, padding_bytes)
 

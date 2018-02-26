@@ -5,6 +5,12 @@ defmodule Binary do
     foldr(:binary.bin_to_list(bin), 0, fn(x, acc) -> (acc <<< 8) + x end)
   end
 
+  def int_to_bin(_, 0) do <<>> end
+  def int_to_bin(int, width) do
+    use Bitwise
+    <<int>> <> int_to_bin(int >>> 8, width - 1)
+  end
+
   def one_to_four(byte, <<a, b, c, d>>) do
     use Bitwise
     <<(a ||| 3) &&& (252 ||| (byte >>> 6)),
