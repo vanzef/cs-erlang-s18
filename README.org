@@ -7,10 +7,10 @@
   + [X] Map is stable
   + [X] Fail agnostic
 
-* TODO Homework 2: least significant bit steganography [3/4]
+* TODO [[file:hw_2/README.md][Homework 2: least significant bit steganography]] [3/4]
   DEADLINE: <2018-02-25 Sun 23:50>
   + [X] Simple LSBS program
   + [X] Multi-byte UTF-8 strings support
   + [X] Support for bitness other than 24 (e.g. ARGB)
-  + [ ] RLE compression support (for 24-bit images)
+  + [ ] RLE compression support (for 8-bit images)
   
