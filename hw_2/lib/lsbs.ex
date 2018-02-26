@@ -1,22 +1,10 @@
 defmodule Steganography do
-  @moduledoc """
-  Documentation for Steganography.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-  iex> Steganography.hello
-  :world
-
-  """
   def encode(file_name, string) do
     import Binary, only: [bin_to_int: 1, int_to_bin: 2, one_to_four: 2]
     import Integer, only: [floor_div: 2]
-    import BMP, only: [get_bmp: 1, drop_padding: 3, add_padding: 3]
-
+    import BMP, only: [get_bmp: 1, drop_padding: 3, add_padding: 3,
+                       get_compression: 1, rle_decompress: 3
+                      ]
     {{raw_hdrs, _, dib_hdr}, image, reminder} = get_bmp(file_name)
     {:ok, v} = Map.fetch(dib_hdr, :height)
     {:ok, h} = Map.fetch(dib_hdr, :width)
@@ -31,15 +19,30 @@ defmodule Steganography do
     {:ok, good_string} = Unicode.take_safely(string, number_of_bytes_to_encode)
     good_string = int_to_bin(byte_size(good_string), 4) <> good_string
 
-    no_padding = drop_padding(image, pixel_bytes, padding_bytes)
+    compression = get_compression(dib_hdr)
 
-    consume = fn consume -> fn
-        {<<h1 :: binary-size(4)>> <> r1, <<h2>> <> r2} ->
-          one_to_four(h2, h1) <> consume.({r1, r2})
-        {tail, <<>>} -> tail
-        {<<>>, _}    -> :error
-      end
-    end
+    no_padding = case compression do
+                   :comp_none -> drop_padding(image, pixel_bytes, padding_bytes)
+                   :rle_8bit -> rle_decompress(pixel_bytes, 0, image)
+                 end
+
+    consume = case compression do
+                :conm_none ->
+                  fn consume -> fn
+                      {<<h1 :: binary-size(4)>> <> r1, <<h2>> <> r2} ->
+                        one_to_four(h2, h1) <> consume.({r1, r2})
+                      {tail, <<>>} -> tail
+                      {<<>>, _}    -> :error
+                    end
+                  end
+                :rle_8bit -> fn consume -> fn
+                      {<<h1 :: binary-size(8)>> <> r1, <<h2>> <> r2} ->
+                        one_to_eight(h2, h1) <> consume.({r1, r2})
+                      {tail, <<>>} -> tail
+                      {<<>>, _}    -> :error
+                    end
+                  end
+              end
 
     pre_encoded = Recursion.fix(consume).({no_padding, good_string})
     encoded = add_padding(pre_encoded, pixel_bytes, padding_bytes)

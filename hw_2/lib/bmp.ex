@@ -94,4 +94,30 @@ defmodule BMP do
       <> Binary.replicate_byte(0, padding_bytes)
       <> add_padding(tail, pixel_bytes, padding_bytes)
   end
+
+  def rle_decompress(_, _, <<>>) do <<>> end
+  def rle_decompress(bytes_in_row, counter, <<0, code>> <> rest) do
+    import Binary, only: [replicate_byte: 2, split_at: 2]
+    case code do
+      0 -> # eol
+        replicate_byte(0, bytes_in_row - counter) <>
+          rle_decompress(bytes_in_row, 0, rest)
+      1 -> # eof
+        <<>>
+      2 -> # delta
+        {<<hor, ver>>, rest} = split_at(rest, 2)
+        replicate_byte(0, bytes_in_row - counter) <>
+          replicate_byte(0, ver * bytes_in_row) <>
+          replicate_byte(0, counter + hor) <>
+          rle_decompress(bytes_in_row, counter + hor, rest)      
+      _ ->
+        {write, rest} = split_at(rest, code)
+        write <> rle_decompress(bytes_in_row, counter + code, rest)        
+    end
+  end
+  def rle_decompress(bytes_in_row, counter, <<number, color>> <> rest) do
+    import Binary, only: [replicate_byte: 2]
+    replicate_byte(color, number) <>
+      rle_decompress(bytes_in_row, counter + number, rest)
+  end
 end
