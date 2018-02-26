@@ -1,16 +1,16 @@
 #+TITLE: Introduction to Erlang
 
-* TODO [[file:hw_1/README.org][Homework 1: parallel map]] [3/3]
+* DONE [[file:hw_1/README.org][Homework 1: parallel map]] [3/3]
   DEADLINE: <2018-02-04 Sun 23:50>
   + [X] Use all available nodes
     Nodes should be manually connnected via =Node.connect=
   + [X] Map is stable
   + [X] Fail agnostic
 
-* TODO Homework 2: least significant bit steganography [0/4]
+* TODO Homework 2: least significant bit steganography [3/4]
   DEADLINE: <2018-02-25 Sun 23:50>
-  + [ ] Simple LSBS program
-  + [ ] Multi-byte UTF-8 strings support
-  + [ ] Support for bitness other than 24 (e.g. ARGB)
+  + [X] Simple LSBS program
+  + [X] Multi-byte UTF-8 strings support
+  + [X] Support for bitness other than 24 (e.g. ARGB)
   + [ ] RLE compression support (for 24-bit images)
   
