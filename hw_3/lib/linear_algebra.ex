@@ -1,18 +1,11 @@
 defmodule LinearAlgebra do
-  @moduledoc """
-  Documentation for LinearAlgebra.
-  """
+  @on_load :load_nifs
 
-  @doc """
-  Hello world.
+  def load_nifs do
+    :erlang.load_nif('priv/linalg_nif', 0)
+  end
 
-  ## Examples
-
-      iex> LinearAlgebra.hello
-      :world
-
-  """
   def hello do
-    :world
+    raise "NIF not implemented"
   end
 end

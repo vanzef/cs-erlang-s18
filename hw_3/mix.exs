@@ -26,3 +26,13 @@ defmodule LinearAlgebra.MixProject do
     ]
   end
 end
+
+defmodule Mix.Tasks.Compile.LinearAlgebra do
+  def run(_) do
+    File.mkdir_p("priv")
+    {result, _error_code} = System.cmd("make", ["all"], stderr_to_stdout: true)
+    Mix.shell.info result
+    IO.binwrite result
+    :ok
+  end
+end
