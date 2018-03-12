@@ -35,6 +35,22 @@ defmodule LinearAlgebra do
     raise "NIF not implemented: columns/1"
   end
 
+  def row(_, _) do
+    raise "NIF not implemented: row/2"
+  end
+
+  def column(_, _) do
+    raise "NIF not implemented: column/2"
+  end
+
+  def main_diagonal(_) do
+    raise "NIF not implemented: main_diagonal/1"
+  end
+
+  def antidiagonal(_) do
+    raise "NIF not implemented: antidiagonal/1"
+  end
+
   def to_array(_) do
     raise "NIF not implemented: to_array/1"
   end

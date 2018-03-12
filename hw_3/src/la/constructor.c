@@ -44,7 +44,7 @@ la_matrix_constructor(la_matrix **res,
 
   (*res)->rows    = rows;
   (*res)->columns = columns;
-  
+
   return ok;
 }
 
@@ -52,20 +52,12 @@ la_result
 la_vertical_vector_constructor(la_matrix **res,
                                const uint rows)
 {
-  la_result result = la_matrix_constructor(res, rows, 1);
-  if (result != ok)
-    return result;
-
-  return ok;
+  return la_matrix_constructor(res, rows, 1);
 }
 
 la_result
 la_horizontal_vector_constructor(la_matrix **res,
                                  const uint columns)
 {
-  la_result result = la_matrix_constructor(res, columns, 1);
-  if (result != ok)
-    return result;
-
-  return ok;
+  return la_matrix_constructor(res, 1, columns);
 }
