@@ -11,26 +11,12 @@
 #include "nif/operations.h"
 #include "nif/conversion.h"
 #include "nif/utils.h"
+#include "nif/helpers.h"
 
 int
 load(ErlNifEnv *,
      void **,
      ERL_NIF_TERM);
-
-static ERL_NIF_TERM
-return_one(ErlNifEnv *,
-           int,
-           const ERL_NIF_TERM *);
-
-static ERL_NIF_TERM
-nif_matrix_rows(ErlNifEnv *,
-                int,
-                const ERL_NIF_TERM *);
-
-static ERL_NIF_TERM
-nif_matrix_columns(ErlNifEnv *,
-                   int,
-                   const ERL_NIF_TERM *);
 
 static ErlNifFunc nif_funcs[] = {
   {"one",        0, return_one},

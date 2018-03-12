@@ -11,4 +11,3 @@ ERL_NIF_TERM
 nif_matrix_constructor(ErlNifEnv *,
                        int,
                        const ERL_NIF_TERM *);
-
