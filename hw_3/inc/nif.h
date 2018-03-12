@@ -31,7 +31,7 @@ static ErlNifFunc nif_funcs[] = {
   {"antidiagonal",   1, nif_extract_antidiagonal},
   {"to_array",       1, nif_to_array},
   {"sum",            2, nif_matrix_sum},
-  /* {"mult",           2, nif_matrix_mult}, */
+  {"mult",           2, nif_matrix_mult},
   {"mult_by_scalar", 2, nif_matrix_mult_by_scalar},
 };
 

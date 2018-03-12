@@ -59,6 +59,10 @@ defmodule LinearAlgebra do
     raise "NIF not implemented: sum/2"
   end
 
+  def mult(_,_) do
+    raise "NIF not implemented: mult/2"
+  end
+
   def mult_by_scalar(_,_) do
     raise "NIF not implemented: mult_by_scalar/2"
   end

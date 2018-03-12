@@ -11,10 +11,10 @@ nif_matrix_sum(ErlNifEnv *,
                int,
                const ERL_NIF_TERM *);
 
-/* static ERL_NIF_TERM */
-/* nif_matrix_mult(ErlNifEnv *, */
-/*                 int, */
-/*                 const ERL_NIF_TERM *); */
+ERL_NIF_TERM
+nif_matrix_mult(ErlNifEnv *,
+                int,
+                const ERL_NIF_TERM *);
 
 ERL_NIF_TERM
 nif_matrix_mult_by_scalar(ErlNifEnv *,
