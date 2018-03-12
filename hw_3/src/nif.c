@@ -36,19 +36,12 @@ nif_matrix_constructor(ErlNifEnv *env,
        && enif_get_uint(env, argv[1], &columns)))
     return enif_make_badarg(env);
   
-  la_matrix **mat_res = enif_alloc_resource(LA_MATRIX_TYPE, sizeof(la_matrix *));
-  
   la_matrix *mat_ptr;
   la_result result = la_matrix_constructor(&mat_ptr, rows, columns);
   if (result != ok)
     return enif_make_atom(env, "err");
 
-  memcpy((void *) mat_res, (void *) &mat_ptr, sizeof(la_matrix *));
-
-  ERL_NIF_TERM term = enif_make_resource(env, mat_res);
-  enif_release_resource(mat_res);
-
-  return term;
+  return nif_resource_from_la_matrix(env, mat_ptr);
 }
 
 void
@@ -163,19 +156,13 @@ nif_from_array(ErlNifEnv *env,
     }
     i++;    
   }
-
-  /* create new matrix */
-  la_matrix **mat_res = enif_alloc_resource(LA_MATRIX_TYPE, sizeof(la_matrix *));
   
   la_matrix *mat_ptr;
   la_result result = la_from_array(&mat_ptr, array, rows, columns);
   if (result != ok)
     return enif_make_atom(env, "err");
 
-  memcpy((void *) mat_res, (void *) &mat_ptr, sizeof(la_matrix *));
-
-  ERL_NIF_TERM term = enif_make_resource(env, mat_res);
-  enif_release_resource(mat_res);
+  ERL_NIF_TERM term = nif_resource_from_la_matrix(env, mat_ptr);
   free(array);
 
   return term;
@@ -233,14 +220,7 @@ nif_matrix_sum(ErlNifEnv *env,
   if (result != ok)
     return result;
 
-  la_matrix **res_res = enif_alloc_resource(LA_MATRIX_TYPE, sizeof(la_matrix *));
-
-  memcpy((void *) res_res, (void *) &res, sizeof(la_matrix *));
-
-  ERL_NIF_TERM term = enif_make_resource(env, res_res);
-  enif_release_resource(res_res);
-
-  return term;
+  return nif_resource_from_la_matrix(env, res);
 }
 
 static ERL_NIF_TERM
@@ -264,12 +244,5 @@ nif_matrix_mult_by_scalar(ErlNifEnv *env,
   if (result != ok)
     return result;
 
-  la_matrix **res_res = enif_alloc_resource(LA_MATRIX_TYPE, sizeof(la_matrix *));
-
-  memcpy((void *) res_res, (void *) &res, sizeof(la_matrix *));
-
-  ERL_NIF_TERM term = enif_make_resource(env, res_res);
-  enif_release_resource(res_res);
-
-  return term;
+  return nif_resource_from_la_matrix(env, res);
 }

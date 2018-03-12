@@ -6,6 +6,8 @@
 #include "nif/types.h"
 #include <string.h>
 
+#include "nif/utils.h"
+
 int
 load(ErlNifEnv *,
      void **,
