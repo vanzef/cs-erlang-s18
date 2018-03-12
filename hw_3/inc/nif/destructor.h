@@ -5,5 +5,5 @@
 #include "la/destructor.h"
 #include "nif/types.h"
 
-/* void nif_matrix_destructor(ErlNifEnv *, */
-/*                            void *); */
+void nif_matrix_destructor(ErlNifEnv *,
+                           void *);

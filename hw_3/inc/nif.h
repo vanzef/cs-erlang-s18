@@ -6,6 +6,10 @@
 #include "nif/types.h"
 #include <string.h>
 
+#include "nif/constructor.h"
+#include "nif/destructor.h"
+#include "nif/operations.h"
+#include "nif/conversion.h"
 #include "nif/utils.h"
 
 int
@@ -19,34 +23,6 @@ return_one(ErlNifEnv *,
            const ERL_NIF_TERM *);
 
 static ERL_NIF_TERM
-nif_matrix_constructor(ErlNifEnv *,
-                       int,
-                       const ERL_NIF_TERM *);
-
-static ERL_NIF_TERM
-nif_to_array(ErlNifEnv *,
-             int,
-             const ERL_NIF_TERM *);
-
-static ERL_NIF_TERM
-nif_from_array(ErlNifEnv *,
-               int,
-               const ERL_NIF_TERM *);
-
-/* static ERL_NIF_TERM */
-/* nif_vvector_constructor(ErlNifEnv *, */
-/*                         int, */
-/*                         const ERL_NIF_TERM *); */
-
-/* static ERL_NIF_TERM */
-/* nif_vvector_constructor(ErlNifEnv *, */
-/*                         int, */
-/*                         const ERL_NIF_TERM *); */
-
-void nif_matrix_destructor(ErlNifEnv *,
-                           void *);
-
-static ERL_NIF_TERM
 nif_matrix_rows(ErlNifEnv *,
                 int,
                 const ERL_NIF_TERM *);
@@ -55,21 +31,6 @@ static ERL_NIF_TERM
 nif_matrix_columns(ErlNifEnv *,
                    int,
                    const ERL_NIF_TERM *);
-
-static ERL_NIF_TERM
-nif_matrix_sum(ErlNifEnv *,
-               int,
-               const ERL_NIF_TERM *);
-
-/* static ERL_NIF_TERM */
-/* nif_matrix_mult(ErlNifEnv *, */
-/*                 int, */
-/*                 const ERL_NIF_TERM *); */
-
-static ERL_NIF_TERM
-nif_matrix_mult_by_scalar(ErlNifEnv *,
-                          int,
-                          const ERL_NIF_TERM *);
 
 static ErlNifFunc nif_funcs[] = {
   {"one",        0, return_one},

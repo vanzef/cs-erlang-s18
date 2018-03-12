@@ -5,8 +5,10 @@
 #include "la/types.h"
 #include "la/constructor.h"
 #include "nif/types.h"
+#include "nif/utils.h"
 
-/* static ERL_NIF_TERM */
-/* nif_matrix_constructor(ErlNifEnv *, */
-/*                        int, */
-/*                        const ERL_NIF_TERM *); */
+ERL_NIF_TERM
+nif_matrix_constructor(ErlNifEnv *,
+                       int,
+                       const ERL_NIF_TERM *);
+
