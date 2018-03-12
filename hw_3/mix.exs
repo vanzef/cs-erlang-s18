@@ -7,8 +7,14 @@ defmodule LinearAlgebra.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
+      compilers: [:make, :elixir, :app],
+      aliases: aliases(),
       deps: deps()
     ]
+  end
+
+  defp aliases do
+    [clean: ["clean", "clean.make"]]
   end
 
   # Run "mix help compile.app" to learn about applications.
@@ -28,12 +34,18 @@ defmodule LinearAlgebra.MixProject do
 
 end
 
-defmodule Mix.Tasks.Compile.LinearAlgebra do
+defmodule Mix.Tasks.Compile.Make do
   def run(_) do
-    File.mkdir_p("build")
-    {result, _error_code} = System.cmd("make", ["all"], stderr_to_stdout: true)
+    {result, _error_code} = System.cmd("make", [], stderr_to_stdout: true)
     Mix.shell.info result
-    IO.binwrite result
+    :ok
+  end
+end
+
+defmodule Mix.Tasks.Clean.Make do
+  def run(_) do
+    {result, _error_code} = System.cmd("make", ["clean"], stderr_to_stdout: true)
+    Mix.shell.info result
     :ok
   end
 end

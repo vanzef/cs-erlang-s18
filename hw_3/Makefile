@@ -27,5 +27,4 @@ $(BUILD_DIR)/$(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDE) $(LDFLAGS) -shared $(OBJS) -o $@
 
 clean:
-	-$(MIX) clean
 	-rm -rf $(BUILD_DIR)

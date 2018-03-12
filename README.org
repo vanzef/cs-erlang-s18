@@ -14,7 +14,7 @@
   + [X] Support for bitness other than 24 (e.g. ARGB)
   + [ ] RLE compression support (for 8-bit images)
 
-* TODO Homework 3: NIF-module for basic linear algebra [4/5]
+* TODO [[file:hw_3/README.md][Homework 3: NIF-module for basic linear algebra]] [4/5]
   DEADLINE: <2018-03-12 Mon 23:50>
   + [X] 4 points
     - addition
