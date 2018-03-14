@@ -26,9 +26,9 @@ la_matrix_mult(la_matrix **res,
                const la_matrix *left,
                const la_matrix *right)
 {
-  const uint lrows = left->rows;
+  const uint lrows    = left->rows;
   const uint lcolumns = left->columns;
-  const uint rrows = right->rows;
+  const uint rrows    = right->rows;
   const uint rcolumns = right->columns;
 
   if (lcolumns != rrows)
@@ -45,9 +45,8 @@ la_matrix_mult(la_matrix **res,
     for (uint c = 0; c < columns; c++) {
       double tmp = 0;
       for (uint i = 0; i < lcolumns; i++)
-        tmp = 0;                /* TODO */
-        /* tmp += left->data[r][i] */
-        /*   * right->data[i][c]; */
+        tmp += left->data[r * left->columns * left->step + i * left->step]
+          * right->data[i * left->columns * left->step + c * left->step];
 
       (*res)->data[r * columns + c] = tmp;
     }
