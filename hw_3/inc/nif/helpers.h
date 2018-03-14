@@ -34,11 +34,6 @@ nif_matrix_dim_columns(ErlNifEnv *,
                        const ERL_NIF_TERM *);
 
 ERL_NIF_TERM
-nif_matrix_offset(ErlNifEnv *,
-                  int,
-                  const ERL_NIF_TERM *);
-
-ERL_NIF_TERM
 nif_matrix_step(ErlNifEnv *,
                 int,
                 const ERL_NIF_TERM *);

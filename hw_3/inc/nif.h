@@ -27,7 +27,6 @@ static ErlNifFunc nif_funcs[] = {
   {"columns",        1, nif_matrix_columns},
   {"dim_rows",       1, nif_matrix_dim_rows},
   {"dim_columns",    1, nif_matrix_dim_columns},
-  /* {"offset",         1, nif_matrix_offset}, */
   {"step",           1, nif_matrix_step},
   {"row",            2, nif_extract_row_vector},
   {"column",         2, nif_extract_column_vector},

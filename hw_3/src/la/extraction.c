@@ -21,11 +21,11 @@ la_extract_row_vector (la_matrix **res,
 
   (*res)->rows    = 1;
   (*res)->columns = matrix->columns;
-  (*res)->data    = matrix->data /* + matrix->offset */
+  (*res)->data    = matrix->data
     + ((row - 1)
        * matrix->step
        * matrix->columns);
-  (*res)->step    = 1;          /* same as above */
+  (*res)->step    = 1;
 
   return ok;
 }
@@ -35,7 +35,6 @@ la_extract_column_vector (la_matrix **res,
                           const la_matrix *matrix,
                           uint column)
 {
-  /* TODO */
   if (column > matrix->columns)
     return dimensional_problems;
 
@@ -67,7 +66,6 @@ la_extract_main_diagonal(la_matrix **res,
   return ok;
 }
 
-/* TODO */
 la_result
 la_extract_antidiagonal(la_matrix **res,
                          const la_matrix *matrix)
