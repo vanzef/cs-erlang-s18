@@ -2,6 +2,7 @@
 
 #include "la/types.h"
 #include "la/constructor.h"
+#include "la/utils.h"
 
 la_result
 la_matrix_sum(la_matrix **,

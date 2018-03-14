@@ -23,4 +23,24 @@ nif_matrix_columns(ErlNifEnv *,
                    int,
                    const ERL_NIF_TERM *);
 
+ERL_NIF_TERM
+nif_matrix_dim_rows(ErlNifEnv *,
+                    int,
+                    const ERL_NIF_TERM *);
+
+ERL_NIF_TERM
+nif_matrix_dim_columns(ErlNifEnv *,
+                       int,
+                       const ERL_NIF_TERM *);
+
+ERL_NIF_TERM
+nif_matrix_offset(ErlNifEnv *,
+                  int,
+                  const ERL_NIF_TERM *);
+
+ERL_NIF_TERM
+nif_matrix_step(ErlNifEnv *,
+                int,
+                const ERL_NIF_TERM *);
+
 

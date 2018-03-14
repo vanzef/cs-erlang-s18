@@ -12,9 +12,8 @@ la_from_array(la_matrix **res,
 
   /* WARNING: may be dangerous due array doesn't carry any info
      about it's size  */
-  for (uint r = 0; r < rows; r++)
-    for (uint c = 0; c < columns; c++)
-      (*res)->data[r][c] = array[r * columns + c];
+  for (uint i = 0; i < rows * columns; i++)
+    (*res)->data[i] = array[i];
 
   return ok;
 }
@@ -24,16 +23,15 @@ la_result
 la_to_array(double **res,
             la_matrix const *matrix)
 {
-  const uint rows    = matrix->rows;
-  const uint columns = matrix->columns;
+  const uint rows    = la_dim_rows(matrix);
+  const uint columns = la_dim_columns(matrix);
 
   (*res) = malloc(rows * columns * sizeof(double));
   if (*res == NULL)
     return null_ptr;
 
-  for (uint r = 0; r < rows; r++)
-    for (uint c = 0; c < columns; c++)
-      (*res)[r * columns + c] = matrix->data[r][c];
+  for (uint i = 0; i < rows * columns; i++)
+    (*res)[i] = matrix->data[matrix->offset + i * matrix->step];
 
   return ok;
 }

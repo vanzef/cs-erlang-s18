@@ -2,6 +2,7 @@
 
 #include "la/types.h"
 #include "la/constructor.h"
+#include "la/utils.h"
 #include <stdlib.h>
 
 la_result

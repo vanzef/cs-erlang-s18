@@ -7,9 +7,11 @@ typedef enum la_result {
   ok,
   null_ptr,
   dimensional_problems,
+  invalid_matrix_structure,
 } la_result;
 
 typedef struct la_matrix {
   uint rows, columns;
-  double **data;
+  double *data;
+  uint offset, step;
 } la_matrix;

@@ -6,3 +6,4 @@
 #include "la/conversion.h"
 #include "la/operations.h"
 #include "la/extraction.h"
+#include "la/utils.h"

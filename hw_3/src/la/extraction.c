@@ -12,14 +12,22 @@ la_extract_row_vector (la_matrix **res,
                        const la_matrix *matrix,
                        uint row)
 {
-  if ((row > matrix->rows) || row == 0)
+  if (row > la_dim_rows(matrix))
     return dimensional_problems;
 
-  la_result result = la_horizontal_vector_constructor(res, matrix->columns);
-  if (result != ok)
-    return result;
+  (*res) = malloc(sizeof(la_matrix));
+  if (*res == NULL)
+    return null_ptr;
 
-  (*res)->data[0] = matrix->data[row - 1];
+  (*res)->rows    = 1;
+  (*res)->columns = la_dim_columns(matrix);
+  (*res)->data    = matrix->data + matrix->offset
+    + ((row - 1)
+       * matrix->step
+       * la_dim_columns(matrix));
+  (*res)->offset  = 0;          /* see the commentary in la/utils.c */
+  (*res)->step    = 1;          /* same as above */
+
   return ok;
 }
 
@@ -28,47 +36,50 @@ la_extract_column_vector (la_matrix **res,
                           const la_matrix *matrix,
                           uint column)
 {
-  if ((column > matrix->columns) || (column == 0))
+  /* TODO */
+  if (column > la_dim_columns(matrix))
     return dimensional_problems;
 
-  la_result result = la_vertical_vector_constructor(res, matrix->rows);
+  la_result result = la_copy_meta(res, matrix);
   if (result != ok)
     return result;
 
-  for (uint i = 0; i < matrix->rows; i++)
-    (*res)->data[i] = matrix->data[i] + (column - 1);
+  (*res)->offset  = matrix->offset + column - 1;
+  (*res)->step    = matrix->step + la_dim_columns(matrix) - 1;
 
   return ok;
 }
-
 
 la_result
 la_extract_main_diagonal(la_matrix **res,
                          const la_matrix *matrix)
 {
-  uint boundary = min(matrix->rows, matrix->columns);
-  la_result result = la_vertical_vector_constructor(res, boundary);
+  const uint boundary = min(la_dim_rows(matrix), la_dim_columns(matrix));
+
+  la_result result = la_copy_meta(res, matrix);
   if (result != ok)
     return result;
 
-  for (uint i = 0; i < boundary; i++)
-    (*res)->data[i] = matrix->data[i] + i;
+  (*res)->rows    = boundary;
+  (*res)->step    = matrix->step + la_dim_columns(matrix);
 
   return ok;
 }
 
+/* TODO */
 la_result
 la_extract_antidiagonal(la_matrix **res,
-                        const la_matrix *matrix)
+                         const la_matrix *matrix)
 {
-  uint boundary = min(matrix->rows, matrix->columns);
-  la_result result = la_vertical_vector_constructor(res, boundary);
+  const uint boundary = min(la_dim_rows(matrix), la_dim_columns(matrix));
+
+  la_result result = la_copy_meta(res, matrix);
   if (result != ok)
     return result;
 
-  for (uint i = 0; i < boundary; i++)
-    (*res)->data[i] = matrix->data[i] + (boundary - 1) - i;
+  (*res)->rows    = boundary;
+  (*res)->offset  = matrix->offset + la_dim_columns(matrix) - 1;
+  (*res)->step    = matrix->step + la_dim_columns(matrix) - 2;
 
   return ok;
 }
-

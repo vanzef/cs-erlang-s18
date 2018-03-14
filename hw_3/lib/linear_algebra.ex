@@ -35,12 +35,28 @@ defmodule LinearAlgebra do
     raise "NIF not implemented: columns/1"
   end
 
+  def offset(_) do
+    raise "NIF not implemented: offset/1"
+  end
+
+  def step(_) do
+    raise "NIF not implemented: step/1"
+  end
+
   def row(_, _) do
     raise "NIF not implemented: row/2"
   end
 
   def column(_, _) do
     raise "NIF not implemented: column/2"
+  end
+
+  def dim_rows(_) do
+    raise "NIF not implemented: dim_rows/1"
+  end
+
+  def dim_columns(_) do
+    raise "NIF not implemented: dim_columns/1"
   end
 
   def main_diagonal(_) do
