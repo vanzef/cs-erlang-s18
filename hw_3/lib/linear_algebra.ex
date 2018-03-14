@@ -35,9 +35,9 @@ defmodule LinearAlgebra do
     raise "NIF not implemented: columns/1"
   end
 
-  def offset(_) do
-    raise "NIF not implemented: offset/1"
-  end
+  # def offset(_) do
+  #   raise "NIF not implemented: offset/1"
+  # end
 
   def step(_) do
     raise "NIF not implemented: step/1"

@@ -10,8 +10,8 @@ nif_to_array(ErlNifEnv *env,
     return enif_make_atom(env, "err");
 
   const la_matrix *mat_ptr = *mat_res;
-  const uint       rows    = la_dim_rows(mat_ptr);
-  const uint       columns = la_dim_columns(mat_ptr);
+  const uint       rows    = mat_ptr->rows;
+  const uint       columns = mat_ptr->columns;
 
   double *array;
   la_result result = la_to_array(&array, mat_ptr);

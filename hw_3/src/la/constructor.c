@@ -22,7 +22,7 @@ la_matrix_constructor(la_matrix **res,
 
   (*res)->rows    = rows;
   (*res)->columns = columns;
-  (*res)->offset  = 0;
+  /* (*res)->offset  = 0; */
   (*res)->step    = 1;
 
   return ok;
@@ -54,7 +54,7 @@ la_copy_meta(la_matrix **res,
   (*res)->rows    = matrix->rows;
   (*res)->columns = matrix->columns;
   (*res)->data    = matrix->data;
-  (*res)->offset  = matrix->offset;
+  /* (*res)->offset  = matrix->offset; */
   (*res)->step    = matrix->step;
 
   return ok;

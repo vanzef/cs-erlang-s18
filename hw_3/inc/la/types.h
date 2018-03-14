@@ -13,5 +13,5 @@ typedef enum la_result {
 typedef struct la_matrix {
   uint rows, columns;
   double *data;
-  uint offset, step;
+  uint step;
 } la_matrix;
